@@ -1,0 +1,86 @@
+---
+title: "HW3_xl2836"
+author: "Xinyi Lin"
+date: "10/4/2018"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+---
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+# Problem 1
+
+# Problem 2
+
+First, we need to import data "HeavySmoke.csv" and "NeverSmoke.csv".
+
+```{r}
+heavysmoke_df = read_csv(file = "./data/HeavySmoke.csv")
+neversmoke_df = read_csv(file = "./data/NeverSmoke.csv")
+```
+
+## Question 1
+
+In order to test wether BMI has changed 6 years after quitting smoking, we need to test the means of `BMI_base` and `BMI_6yrs` are different or not. As we don't know the variance of two samples, we use t test.
+
+Assuming the mean of `BMI_base` is $\mu_b$ and the mean of `BMI_6yrs` is $\mu_6$, the difference between `BMI_base` and `BMI_6yrs` is $d_h$. The samples sizes $n$ is 10.
+
+The null hypothesis $H_0$ : $\mu_b = \mu_6$, the alternative hypothesis $H_0$ : $\mu_b \neq \mu_6$.
+
+```{r}
+d_h = heavysmoke_df$BMI_6yrs - heavysmoke_df$BMI_base # get the difference
+```
+
+The test statustic :
+$$t_{s1}= \frac{\bar{d_h}-0}{s_d/\sqrt{n}} $$ 
+
+```{r}
+t_s1 = mean(d_h)*sqrt(10)/sd(d_h)
+t_std = qt(0.975, 9)
+```
+
+
+$t_{s1}$ is `r round(t_s1, 3)` and $t_{9,0.975}$ is  `r round(t_std, 3)`. As $t_{s1}$ larger than $t_{9,0.975}$, we reject $H_0$.
+
+Interpreatation: At $\alpha = 0.05$, we reject $H_0$ and conclude that there is enough evidence to prove that the mean of `BMI_base` $\mu_b$ is different from the mean of `BMI_6yrs` $\mu_6$ and their BMI has changed 6 years after quitting smoking.
+
+## Question 2
+
+Assuming the difference between `BMI_base` and `BMI_6yrs` is never-smoke-group is $d_n$ and difference between $d_h$ and $d_n$ is $d$. The samples sizes $n$ is 10. In order to compare the BMI changes between women that quit smoking and women who never smoked, we compare the changes in two groups. As these two groups have same sample sizes with unknown variance, we use t test.
+
+The null hypothesis $H_0$ : $d_h = d_s$, the alternative hypothesis $H_0$ : $d_h \neq d_n$.
+
+```{r}
+d_n = neversmoke_df$BMI_6yrs - neversmoke_df$BMI_base # get the difference
+d = d_h - d_n
+```
+
+The test statustic :
+$$t_{s2}= \frac{\bar{d}-0}{s_d/\sqrt{n}} $$ 
+
+```{r}
+t_s2 = mean(d)*sqrt(10)/sd(d)
+t_std = qt(0.975, 9)
+```
+
+
+$t_{s2}$ is `r round(t_s2, 3)` and $t_{9,0.975}$ is  `r round(t_std, 3)`. As $t_{s2}$ smaller than $t_{9,0.975}$, we fail to reject $H_0$.
+
+Interpreatation: At $\alpha = 0.05$, we fail to reject $H_0$ and conclude that there is no enough evidence to prove that the BMI changes between women that quit smoking and women who never smoked are different.
+
+## Question 3
+
+The corresponding 95% CI associated with the difference between changes of two groups $d$ is given by:
+$$ \bar{d}-t_{n-1,1-\alpha/2}\frac{s_d}{\sqrt{n}} \leq d \leq \bar{d}+t_{n-1,1-\alpha/2}\frac{s_d}{\sqrt{n}} $$
+
+```{r}
+CI_left = mean(d) - qt(0.975, 9)*sd(d)/sqrt(10)
+CI_right = mean(d) + qt(0.975, 9)*sd(d)/sqrt(10)
+```
+
+
+As $n$ is 10 and \alpha is 0.05, the corresponding 95% CI associated with $d$ is [`r round(CI_left, 3)`, `r round(CI_right, 3)`].
