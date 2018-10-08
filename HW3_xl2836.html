@@ -164,25 +164,25 @@ $(document).ready(function () {
 <h2>Question 1</h2>
 <p>In order to test wether BMI has changed 6 years after quitting smoking, we need to test the means of <code>BMI_base</code> and <code>BMI_6yrs</code> are different or not. As we don’t know the variance of two samples, we use t test.</p>
 <p>Assuming the mean of <code>BMI_base</code> is <span class="math inline">\(\mu_b\)</span> and the mean of <code>BMI_6yrs</code> is <span class="math inline">\(\mu_6\)</span>, the difference between <code>BMI_base</code> and <code>BMI_6yrs</code> is <span class="math inline">\(d_h\)</span>. The samples sizes <span class="math inline">\(n\)</span> is 10.</p>
-<p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(\mu_b = \mu_6\)</span>, the alternative hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(\mu_b \neq \mu_6\)</span>.</p>
+<p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(\mu_b = \mu_6\)</span>, the alternative hypothesis <span class="math inline">\(H_1\)</span> : <span class="math inline">\(\mu_b \neq \mu_6\)</span>.</p>
 <pre class="r"><code>d_h = heavysmoke_df$BMI_6yrs - heavysmoke_df$BMI_base # get the difference</code></pre>
 <p>The test statustic : <span class="math display">\[t_{s1}= \frac{\bar{d_h}-0}{s_d/\sqrt{n}} \]</span></p>
 <pre class="r"><code>t_s1 = mean(d_h)*sqrt(10)/sd(d_h)
 t_std = qt(0.975, 9)</code></pre>
 <p><span class="math inline">\(t_{s1}\)</span> is 4.314 and <span class="math inline">\(t_{9,0.975}\)</span> is 2.262. As <span class="math inline">\(t_{s1}\)</span> larger than <span class="math inline">\(t_{9,0.975}\)</span>, we reject <span class="math inline">\(H_0\)</span>.</p>
-<p>Interpreatation: At <span class="math inline">\(\alpha = 0.05\)</span>, we reject <span class="math inline">\(H_0\)</span> and conclude that there is enough evidence to prove that the mean of <code>BMI_base</code> <span class="math inline">\(\mu_b\)</span> is different from the mean of <code>BMI_6yrs</code> <span class="math inline">\(\mu_6\)</span> and their BMI has changed 6 years after quitting smoking.</p>
+<p>Interpreatation: At <span class="math inline">\(\alpha = 0.05\)</span> level, we reject <span class="math inline">\(H_0\)</span> and conclude that there is enough evidence to prove that the mean of <code>BMI_base</code> <span class="math inline">\(\mu_b\)</span> is different from the mean of <code>BMI_6yrs</code> <span class="math inline">\(\mu_6\)</span> and their BMI has changed 6 years after quitting smoking.</p>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
 <p>Assuming the difference between <code>BMI_base</code> and <code>BMI_6yrs</code> is never-smoke-group is <span class="math inline">\(d_n\)</span> and difference between <span class="math inline">\(d_h\)</span> and <span class="math inline">\(d_n\)</span> is <span class="math inline">\(d\)</span>. The samples sizes <span class="math inline">\(n\)</span> is 10. In order to compare the BMI changes between women that quit smoking and women who never smoked, we compare the changes in two groups. As these two groups have same sample sizes with unknown variance, we use t test.</p>
-<p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(d_h = d_s\)</span>, the alternative hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(d_h \neq d_n\)</span>.</p>
+<p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(d_h = d_s\)</span>, the alternative hypothesis <span class="math inline">\(H_1\)</span> : <span class="math inline">\(d_h \neq d_n\)</span>.</p>
 <pre class="r"><code>d_n = neversmoke_df$BMI_6yrs - neversmoke_df$BMI_base # get the difference
 d = d_h - d_n</code></pre>
 <p>The test statustic : <span class="math display">\[t_{s2}= \frac{\bar{d}-0}{s_d/\sqrt{n}} \]</span></p>
 <pre class="r"><code>t_s2 = mean(d)*sqrt(10)/sd(d)
 t_std = qt(0.975, 9)</code></pre>
 <p><span class="math inline">\(t_{s2}\)</span> is 1.56 and <span class="math inline">\(t_{9,0.975}\)</span> is 2.262. As <span class="math inline">\(t_{s2}\)</span> smaller than <span class="math inline">\(t_{9,0.975}\)</span>, we fail to reject <span class="math inline">\(H_0\)</span>.</p>
-<p>Interpreatation: At <span class="math inline">\(\alpha = 0.05\)</span>, we fail to reject <span class="math inline">\(H_0\)</span> and conclude that there is no enough evidence to prove that the BMI changes between women that quit smoking and women who never smoked are different.</p>
+<p>Interpreatation: At <span class="math inline">\(\alpha = 0.05\)</span> level, we fail to reject <span class="math inline">\(H_0\)</span> and conclude that there is no enough evidence to prove that the BMI changes between women that quit smoking and women who never smoked are different.</p>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
@@ -190,6 +190,161 @@ t_std = qt(0.975, 9)</code></pre>
 <pre class="r"><code>CI_left = mean(d) - qt(0.975, 9)*sd(d)/sqrt(10)
 CI_right = mean(d) + qt(0.975, 9)*sd(d)/sqrt(10)</code></pre>
 <p>As <span class="math inline">\(n\)</span> is 10 and is 0.05, the corresponding 95% CI associated with <span class="math inline">\(d\)</span> is [-0.814, 4.434].</p>
+</div>
+<div id="question-4" class="section level2">
+<h2>Question 4</h2>
+</div>
+</div>
+<div id="problem-3" class="section level1">
+<h1>Problem 3</h1>
+<p>First, we need to import data “Knee.csv”.</p>
+<pre class="r"><code>Knee_df = read_csv(file = &quot;./data/Knee.csv&quot;) %&gt;% 
+  janitor::clean_names()</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Below = col_integer(),
+##   Average = col_integer(),
+##   Above = col_integer()
+## )</code></pre>
+<div id="question-1-1" class="section level2">
+<h2>Question 1</h2>
+<p>The descriptive statistics for Below group is:</p>
+<pre class="r"><code>summary(Knee_df$Below)</code></pre>
+<pre><code>## Warning: Unknown or uninitialised column: 'Below'.</code></pre>
+<pre><code>## Length  Class   Mode 
+##      0   NULL   NULL</code></pre>
+<p>The descriptive statistics for Average group is:</p>
+<pre class="r"><code>summary(Knee_df$Average)</code></pre>
+<pre><code>## Warning: Unknown or uninitialised column: 'Average'.</code></pre>
+<pre><code>## Length  Class   Mode 
+##      0   NULL   NULL</code></pre>
+<p>The descriptive statistics for Above group is:</p>
+<pre class="r"><code>summary(Knee_df$Above)</code></pre>
+<pre><code>## Warning: Unknown or uninitialised column: 'Above'.</code></pre>
+<pre><code>## Length  Class   Mode 
+##      0   NULL   NULL</code></pre>
+</div>
+<div id="question-2-1" class="section level2">
+<h2>Question 2</h2>
+<pre class="r"><code># tidy data
+Knee_aov_df =          
+  Knee_df %&gt;% 
+  gather(key = &quot;group&quot;, value = &quot;time&quot;, below:above) %&gt;% 
+  filter(!is.na(time))
+
+# get ANOVA table
+res_knee = lm(time ~ factor(group), data = Knee_aov_df)   
+anova(res_knee)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sum Sq"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean Sq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"795.2457","3":"397.62286","4":"19.2802","5":"1.454029e-05","_rn_":"factor(group)"},{"1":"22","2":"453.7143","3":"20.62338","4":"NA","5":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Assuming the mean of Below group is <span class="math inline">\(\mu_b\)</span>, the mean of Average group is <span class="math inline">\(\mu_{av}\)</span> and the mean of Above group is <span class="math inline">\(\mu_{ab}\)</span>.</p>
+<p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(\mu_b = \mu_{av} = \mu_{ab}\)</span>, the alternative hypothesis <span class="math inline">\(H_1\)</span> : at least two means are not equal.</p>
+<p>According to the ANOVA table <span class="math inline">\(F_s\)</span> is 19.28 and <span class="math inline">\(F_{2,22,0.99}\)</span> is 5.72. As <span class="math inline">\(F_s\)</span> larger than <span class="math inline">\(F_{2,22,0.99}\)</span>, we reject <span class="math inline">\(H_0\)</span>.</p>
+<p>Interpreatation: At <span class="math inline">\(\alpha = 0.01\)</span> level, we reject <span class="math inline">\(H_0\)</span> and conclude that at least two means of Below, Average, Above groups’ time are not equal.</p>
+</div>
+<div id="question-3-1" class="section level2">
+<h2>Question 3</h2>
+<div id="bonferroni" class="section level3">
+<h3>Bonferroni</h3>
+<pre class="r"><code>pairwise.t.test(Knee_aov_df$time, Knee_aov_df$group, p.adj = 'bonferroni')</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  Knee_aov_df$time and Knee_aov_df$group 
+## 
+##         above   average
+## average 0.0011  -      
+## below   1.1e-05 0.0898 
+## 
+## P value adjustment method: bonferroni</code></pre>
+<pre class="r"><code>k = 2</code></pre>
+<p>Bonferroni adjustment: <span class="math display">\[\alpha^* = \frac{\alpha}{\begin{pmatrix} k \\ 2 \\ \end{pmatrix}} \]</span> In these case, the <span class="math inline">\(\alpha^*\)</span> is 0.0033333, <span class="math inline">\(t_{k-1,1-{\alpha^*}}\)</span> is 12.248. As all <span class="math inline">\(t\)</span> in t-test table are smaller than <span class="math inline">\(t_{k-1,1-{\alpha^*}}\)</span>, there is no significance different between each group.</p>
+</div>
+<div id="tukey" class="section level3">
+<h3>Tukey</h3>
+<pre class="r"><code>aov(time ~ factor(group), data = Knee_aov_df) %&gt;% 
+  TukeyHSD()</code></pre>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = time ~ factor(group), data = Knee_aov_df)
+## 
+## $`factor(group)`
+##                    diff        lwr      upr     p adj
+## average-above  9.428571  3.8066356 15.05051 0.0010053
+## below-above   14.428571  8.5243579 20.33278 0.0000102
+## below-average  5.000000 -0.4113011 10.41130 0.0736833</code></pre>
+</div>
+<div id="dunnett" class="section level3">
+<h3>Dunnett</h3>
+<pre class="r"><code>library(multcomp)</code></pre>
+<pre><code>## Loading required package: mvtnorm</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre><code>## Loading required package: TH.data</code></pre>
+<pre><code>## Loading required package: MASS</code></pre>
+<pre><code>## 
+## Attaching package: 'MASS'</code></pre>
+<pre><code>## The following object is masked from 'package:dplyr':
+## 
+##     select</code></pre>
+<pre><code>## 
+## Attaching package: 'TH.data'</code></pre>
+<pre><code>## The following object is masked from 'package:MASS':
+## 
+##     geyser</code></pre>
+<pre class="r"><code>Knee_aov_df %&gt;% 
+  mutate(group = as.factor(group)) %&gt;% 
+  aov(time ~ group, data = .) %&gt;% 
+  glht(linfct = mcp(group = &quot;Dunnett&quot;))</code></pre>
+<pre><code>## 
+##   General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Dunnett Contrasts
+## 
+## 
+## Linear Hypotheses:
+##                      Estimate
+## average - above == 0    9.429
+## below - above == 0     14.429</code></pre>
+</div>
+</div>
+</div>
+<div id="problem-4" class="section level1">
+<h1>Problem 4</h1>
+<div id="question-1-2" class="section level2">
+<h2>Question 1</h2>
+<pre class="r"><code>UCBA_df = as.tibble(datasets::UCBAdmissions) %&gt;%     # import data
+  janitor::clean_names()
+
+admit_male =                          # get the number of admitted male in each department
+  UCBA_df %&gt;% 
+  filter(admit == &quot;Admitted&quot;, gender == &quot;Male&quot;)
+
+admit_female =                        # get the number of admitted female in each department
+  UCBA_df %&gt;% 
+  filter(admit == &quot;Admitted&quot;, gender == &quot;Female&quot;)
+
+p_m = sum(admit_male$n)/(sum(admit_female$n) + sum(admit_male$n))
+p_f = sum(admit_female$n)/(sum(admit_female$n) + sum(admit_male$n))</code></pre>
+<p>Using the point estimation of the proportions of female and male admitted at Berkeley. The point estimation of the proportions of female <span class="math inline">\(\hat{p_f}\)</span> is 0.317, the point estimation of the proportions of male <span class="math inline">\(\hat{p_m}\)</span> is 0.683.</p>
+<p>Using the following formula to get the 95% confidence interval for the proportions of female and male: <span class="math display">\[ \left(\hat{p}-z_{0.975}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}},\hat{p}+z_{0.975}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\right) \]</span></p>
+<pre class="r"><code>n = sum(admit_female$n) + sum(admit_male$n)
+
+# proportion of female
+left_CI_female = p_f - qnorm(0.975)*sqrt(p_f*(1-p_f)/n)
+right_CI_female = p_f + qnorm(0.975)*sqrt(p_f*(1-p_f)/n)
+
+# proportion of male
+left_CI_male = p_m - qnorm(0.975)*sqrt(p_m*(1-p_m)/n)
+right_CI_male = p_m + qnorm(0.975)*sqrt(p_m*(1-p_m)/n)</code></pre>
+<p>By using the above formula, we can get the 95% confidence interval for the proportions of female is ( 0.296, 0.339 ) and the 95% confidence interval for the proportions of male is ( 0.661, 0.704 )</p>
+</div>
+<div id="question-2-2" class="section level2">
+<h2>Question 2</h2>
+<p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(p_f = p_m\)</span>, the alternative hypothesis <span class="math inline">\(H_1\)</span> : <span class="math inline">\(p_f \neq p_m\)</span>.</p>
 </div>
 </div>
 

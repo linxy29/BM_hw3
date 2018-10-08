@@ -29,7 +29,7 @@ In order to test wether BMI has changed 6 years after quitting smoking, we need 
 
 Assuming the mean of `BMI_base` is $\mu_b$ and the mean of `BMI_6yrs` is $\mu_6$, the difference between `BMI_base` and `BMI_6yrs` is $d_h$. The samples sizes $n$ is 10.
 
-The null hypothesis $H_0$ : $\mu_b = \mu_6$, the alternative hypothesis $H_0$ : $\mu_b \neq \mu_6$.
+The null hypothesis $H_0$ : $\mu_b = \mu_6$, the alternative hypothesis $H_1$ : $\mu_b \neq \mu_6$.
 
 ```{r}
 d_h = heavysmoke_df$BMI_6yrs - heavysmoke_df$BMI_base # get the difference
@@ -46,13 +46,13 @@ t_std = qt(0.975, 9)
 
 $t_{s1}$ is `r round(t_s1, 3)` and $t_{9,0.975}$ is  `r round(t_std, 3)`. As $t_{s1}$ larger than $t_{9,0.975}$, we reject $H_0$.
 
-Interpreatation: At $\alpha = 0.05$, we reject $H_0$ and conclude that there is enough evidence to prove that the mean of `BMI_base` $\mu_b$ is different from the mean of `BMI_6yrs` $\mu_6$ and their BMI has changed 6 years after quitting smoking.
+Interpreatation: At $\alpha = 0.05$ level, we reject $H_0$ and conclude that there is enough evidence to prove that the mean of `BMI_base` $\mu_b$ is different from the mean of `BMI_6yrs` $\mu_6$ and their BMI has changed 6 years after quitting smoking.
 
 ## Question 2
 
 Assuming the difference between `BMI_base` and `BMI_6yrs` is never-smoke-group is $d_n$ and difference between $d_h$ and $d_n$ is $d$. The samples sizes $n$ is 10. In order to compare the BMI changes between women that quit smoking and women who never smoked, we compare the changes in two groups. As these two groups have same sample sizes with unknown variance, we use t test.
 
-The null hypothesis $H_0$ : $d_h = d_s$, the alternative hypothesis $H_0$ : $d_h \neq d_n$.
+The null hypothesis $H_0$ : $d_h = d_s$, the alternative hypothesis $H_1$ : $d_h \neq d_n$.
 
 ```{r}
 d_n = neversmoke_df$BMI_6yrs - neversmoke_df$BMI_base # get the difference
@@ -68,9 +68,9 @@ t_std = qt(0.975, 9)
 ```
 
 
-$t_{s2}$ is `r round(t_s2, 3)` and $t_{9,0.975}$ is  `r round(t_std, 3)`. As $t_{s2}$ smaller than $t_{9,0.975}$, we fail to reject $H_0$.
+$t_{s2}$ is `r round(t_s2, 3)` and $t_{9,0.975}$ is `r round(t_std, 3)`. As $t_{s2}$ smaller than $t_{9,0.975}$, we fail to reject $H_0$.
 
-Interpreatation: At $\alpha = 0.05$, we fail to reject $H_0$ and conclude that there is no enough evidence to prove that the BMI changes between women that quit smoking and women who never smoked are different.
+Interpreatation: At $\alpha = 0.05$ level, we fail to reject $H_0$ and conclude that there is no enough evidence to prove that the BMI changes between women that quit smoking and women who never smoked are different.
 
 ## Question 3
 
@@ -82,5 +82,129 @@ CI_left = mean(d) - qt(0.975, 9)*sd(d)/sqrt(10)
 CI_right = mean(d) + qt(0.975, 9)*sd(d)/sqrt(10)
 ```
 
-
 As $n$ is 10 and \alpha is 0.05, the corresponding 95% CI associated with $d$ is [`r round(CI_left, 3)`, `r round(CI_right, 3)`].
+
+## Question 4
+
+# Problem 3
+
+First, we need to import data "Knee.csv".
+
+```{r}
+Knee_df = read_csv(file = "./data/Knee.csv") %>% 
+  janitor::clean_names()
+```
+
+## Question 1
+
+The descriptive statistics for Below group is:
+
+```{r}
+summary(Knee_df$Below)
+```
+
+The descriptive statistics for Average group is:
+
+```{r}
+summary(Knee_df$Average)
+```
+
+The descriptive statistics for Above group is:
+
+```{r}
+summary(Knee_df$Above)
+```
+
+## Question 2
+
+```{r}
+# tidy data
+Knee_aov_df =          
+  Knee_df %>% 
+  gather(key = "group", value = "time", below:above) %>% 
+  filter(!is.na(time))
+
+# get ANOVA table
+res_knee = lm(time ~ factor(group), data = Knee_aov_df)   
+anova(res_knee)
+```
+
+Assuming the mean of Below group is $\mu_b$, the mean of Average group is $\mu_{av}$ and the mean of Above group is $\mu_{ab}$.
+
+The null hypothesis $H_0$ : $\mu_b = \mu_{av} = \mu_{ab}$, the alternative hypothesis $H_1$ : at least two means are not equal.
+
+According to the ANOVA table $F_s$ is 19.28 and $F_{2,22,0.99}$ is `r round(qf(0.99, 2, 22), 2)`. As $F_s$ larger than $F_{2,22,0.99}$, we reject $H_0$.
+
+Interpreatation: At $\alpha = 0.01$ level, we reject $H_0$ and conclude that at least two means of Below, Average, Above groups' time are not equal.
+
+## Question 3
+
+### Bonferroni
+
+```{r}
+pairwise.t.test(Knee_aov_df$time, Knee_aov_df$group, p.adj = 'bonferroni')
+k = 2
+```
+
+Bonferroni adjustment:
+$$\alpha^* = \frac{\alpha}{\begin{pmatrix} k \\ 2 \\ \end{pmatrix}} $$
+In these case, the $\alpha^*$ is `r 0.01*2/(3*2)`, $t_{k-1,1-{\alpha^*}}$ is `r round(qt(1-0.0033, 2), 3)`. As all $t$ in t-test table are smaller than $t_{k-1,1-{\alpha^*}}$, there is no significance different between each group.
+
+### Tukey
+
+```{r}
+aov(time ~ factor(group), data = Knee_aov_df) %>% 
+  TukeyHSD()
+```
+
+### Dunnett
+
+```{r}
+library(multcomp)
+Knee_aov_df %>% 
+  mutate(group = as.factor(group)) %>% 
+  aov(time ~ group, data = .) %>% 
+  glht(linfct = mcp(group = "Dunnett"))
+```
+
+# Problem 4
+
+## Question 1
+
+```{r}
+UCBA_df = as.tibble(datasets::UCBAdmissions) %>%     # import data
+  janitor::clean_names()
+
+admit_male =                          # get the number of admitted male in each department
+  UCBA_df %>% 
+  filter(admit == "Admitted", gender == "Male")
+
+admit_female =                        # get the number of admitted female in each department
+  UCBA_df %>% 
+  filter(admit == "Admitted", gender == "Female")
+
+p_m = sum(admit_male$n)/(sum(admit_female$n) + sum(admit_male$n))
+p_f = sum(admit_female$n)/(sum(admit_female$n) + sum(admit_male$n))
+```
+
+Using the point estimation of the proportions of female and male admitted at Berkeley. The point estimation of the proportions of female $\hat{p_f}$ is `r round(p_f, 3)`, the point estimation of the proportions of male $\hat{p_m}$ is `r round(p_m, 3)`.
+
+Using the following formula to get the 95% confidence interval for the proportions of female and male:
+$$ \left(\hat{p}-z_{0.975}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}},\hat{p}+z_{0.975}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\right) $$
+```{r}
+n = sum(admit_female$n) + sum(admit_male$n)
+
+# proportion of female
+left_CI_female = p_f - qnorm(0.975)*sqrt(p_f*(1-p_f)/n)
+right_CI_female = p_f + qnorm(0.975)*sqrt(p_f*(1-p_f)/n)
+
+# proportion of male
+left_CI_male = p_m - qnorm(0.975)*sqrt(p_m*(1-p_m)/n)
+right_CI_male = p_m + qnorm(0.975)*sqrt(p_m*(1-p_m)/n)
+```
+
+By using the above formula, we can get the 95% confidence interval for the proportions of female is ( `r round(left_CI_female,3)`, `r round(right_CI_female,3)` ) and the 95% confidence interval for the proportions of male is ( `r round(left_CI_male,3)`, `r round(right_CI_male,3)` )
+
+## Question 2
+
+The null hypothesis $H_0$ : $p_f = p_m$, the alternative hypothesis $H_1$ : $p_f \neq p_m$.
