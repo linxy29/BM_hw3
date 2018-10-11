@@ -131,17 +131,54 @@ $(document).ready(function () {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
 ## ✔ tibble  1.4.2     ✔ dplyr   0.7.6
 ## ✔ tidyr   0.8.1     ✔ stringr 1.3.1
 ## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(readxl)</code></pre>
 <div id="problem-1" class="section level1">
 <h1>Problem 1</h1>
+<div id="question-1" class="section level2">
+<h2>Question 1</h2>
+<p>Assuming the mean of <span class="math inline">\(X_i\)</span> is <span class="math inline">\(\mu\)</span>.</p>
+<span class="math display">\[\begin{split}
+E(s^2) &amp; =E[\frac{1}{n-1}\sum_{i=1}^n(x_i-x)^2]\\
+&amp; =E[\frac{1}{n-1}\sum_{i=1}^n(x_i^2-2\bar{x}x_i+\bar{x}^2)] \\
+&amp; =\frac{n}{n-1}E[\frac{1}{n}\sum_{i=1}^n(x_i^2-2\bar{x}x_i+\bar{x}^2)] \\
+&amp; =\frac{n}{n-1}\{\frac{1}{n}E[\sum_{i=1}^n(x_i^2)]-2E(\bar{x}\frac{1}{n}\sum_{i=1}^nx_i)+E(\bar{x}^2)\} \\
+&amp; =\frac{n}{n-1}\{\frac{1}{n}\sum_{i=1}^nE(x_i^2)-2E(\bar{x}^2)+E(\bar{x}^2)\} \\
+&amp; =\frac{n}{n-1}\{\frac{1}{n}\sum_{i=1}^nE(x_i^2)-E(\bar{x}^2)\}
+\end{split}\]</span>
+As <span class="math inline">\(Var(x_i) = E(x_i^2)-(Ex_i)^2\)</span>, we can get <span class="math inline">\(E(x_i^2)=Var(x_i)+(Ex_i)^2=\sigma^2+\mu^2\)</span>. As <span class="math inline">\(Var(\bar{x}) = E(\bar{x}^2)-(E\bar{x})^2\)</span>, we can get <span class="math inline">\(E(\bar{x}^2)=Var(\bar{x})+(E\bar{x})^2=\frac{\sigma^2}{n}+\mu^2\)</span>. Then,
+<span class="math display">\[\begin{split}
+E(s^2) &amp; =\frac{n}{n-1}[\frac{1}{n}\times n(\sigma^2+\mu^2)-\frac{\sigma^2}{n}-\mu^2] \\
+&amp; =\frac{n}{n-1}\frac{1}{n}\sigma^2 \\
+&amp; =\sigma^2
+\end{split}\]</span>
+</div>
+<div id="question-2" class="section level2">
+<h2>Question 2</h2>
+<span class="math display">\[\begin{split}
+\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}-\bar{\bar{y}})^2 &amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2-2y_{ij}\bar{\bar{y}}+\bar{\bar{y}}^2) \\
+&amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)-2\bar{\bar{y}}\sum_{i=1}^k\sum_{j=1}^{n_i}y_{ij} \\
+&amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{\bar{y}}^2 \\
+&amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2-\bar{\bar{y}}^2)
+\end{split}\]</span>
+<span class="math display">\[\begin{split}
+\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}-\bar{y_l})^2+\sum_{i=1}^k\sum_{j=1}^{n_i}(\bar{y_l}-\bar{\bar{y}})^2 &amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}[y_{ij}^2-2\bar{y_l}y_{ij}+(\bar{y_l})^2+(\bar{y_l})^2-2\bar{y_l}\bar{\bar{y}}+\bar{\bar{y}}^2] \\
+&amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+\sum_{i=1}^k\sum_{j=1}^{n_i}[2(\bar{y_l})^2-2\bar{y_l}\bar{\bar{y}}+\bar{\bar{y}}^2] \\
+&amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}y_{ij}-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}\bar{\bar{y}} \\
+&amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k(\bar{y_l}\sum_{j=1}^{n_i}y_{ij})-2\bar{\bar{y}}\sum_{i=1}^k(\bar{y_l}\sum_{j=1}^{n_i}1) \\
+&amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{\bar{y}}^2 \\
+&amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2-\bar{\bar{y}}^2) \\
+&amp; =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}-\bar{\bar{y}})^2
+
+\end{split}\]</span>
+</div>
 </div>
 <div id="problem-2" class="section level1">
 <h1>Problem 2</h1>
@@ -160,7 +197,7 @@ $(document).ready(function () {
 ##   BMI_base = col_double(),
 ##   BMI_6yrs = col_double()
 ## )</code></pre>
-<div id="question-1" class="section level2">
+<div id="question-1-1" class="section level2">
 <h2>Question 1</h2>
 <p>In order to test wether BMI has changed 6 years after quitting smoking, we need to test the means of <code>BMI_base</code> and <code>BMI_6yrs</code> are different or not. As we don’t know the variance of two samples, we use t test.</p>
 <p>Assuming the mean of <code>BMI_base</code> is <span class="math inline">\(\mu_b\)</span> and the mean of <code>BMI_6yrs</code> is <span class="math inline">\(\mu_6\)</span>, the difference between <code>BMI_base</code> and <code>BMI_6yrs</code> is <span class="math inline">\(d_h\)</span>. The samples sizes <span class="math inline">\(n\)</span> is 10.</p>
@@ -168,31 +205,79 @@ $(document).ready(function () {
 <pre class="r"><code>d_h = heavysmoke_df$BMI_6yrs - heavysmoke_df$BMI_base # get the difference</code></pre>
 <p>The test statustic : <span class="math display">\[t_{s1}= \frac{\bar{d_h}-0}{s_d/\sqrt{n}} \]</span></p>
 <pre class="r"><code>t_s1 = mean(d_h)*sqrt(10)/sd(d_h)
-t_std = qt(0.975, 9)</code></pre>
+t_std1 = qt(0.975, 9)</code></pre>
 <p><span class="math inline">\(t_{s1}\)</span> is 4.314 and <span class="math inline">\(t_{9,0.975}\)</span> is 2.262. As <span class="math inline">\(t_{s1}\)</span> larger than <span class="math inline">\(t_{9,0.975}\)</span>, we reject <span class="math inline">\(H_0\)</span>.</p>
-<p>Interpreatation: At <span class="math inline">\(\alpha = 0.05\)</span> level, we reject <span class="math inline">\(H_0\)</span> and conclude that there is enough evidence to prove that the mean of <code>BMI_base</code> <span class="math inline">\(\mu_b\)</span> is different from the mean of <code>BMI_6yrs</code> <span class="math inline">\(\mu_6\)</span> and their BMI has changed 6 years after quitting smoking.</p>
+<p>Interpreatation: At <span class="math inline">\(\alpha = 0.05\)</span> significant level, we reject <span class="math inline">\(H_0\)</span> and conclude that there is enough evidence to prove that the mean of <code>BMI_base</code> <span class="math inline">\(\mu_b\)</span> is different from the mean of <code>BMI_6yrs</code> <span class="math inline">\(\mu_6\)</span> and their BMI has changed 6 years after quitting smoking.</p>
 </div>
-<div id="question-2" class="section level2">
+<div id="question-2-1" class="section level2">
 <h2>Question 2</h2>
-<p>Assuming the difference between <code>BMI_base</code> and <code>BMI_6yrs</code> is never-smoke-group is <span class="math inline">\(d_n\)</span> and difference between <span class="math inline">\(d_h\)</span> and <span class="math inline">\(d_n\)</span> is <span class="math inline">\(d\)</span>. The samples sizes <span class="math inline">\(n\)</span> is 10. In order to compare the BMI changes between women that quit smoking and women who never smoked, we compare the changes in two groups. As these two groups have same sample sizes with unknown variance, we use t test.</p>
-<p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(d_h = d_s\)</span>, the alternative hypothesis <span class="math inline">\(H_1\)</span> : <span class="math inline">\(d_h \neq d_n\)</span>.</p>
+<p>Assuming the difference between <code>BMI_base</code> and <code>BMI_6yrs</code> is never-smoke-group is <span class="math inline">\(d_n\)</span> and difference between <span class="math inline">\(d_h\)</span> and <span class="math inline">\(d_n\)</span> is <span class="math inline">\(d\)</span>. The samples sizes <span class="math inline">\(n\)</span> is 10. In order to compare the BMI changes between women that quit smoking and women who never smoked, we use two-sample independent t-test to compare the changes in two groups. First, we need to test the two samples have same variance or not.</p>
+<p>Assuming the variances of two samples are <span class="math inline">\(\sigma_n\)</span> and <span class="math inline">\(\sigma_h\)</span> and the null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(\sigma_h = \sigma_s\)</span>, the alternative hypothesis <span class="math inline">\(H_1\)</span> : <span class="math inline">\(\sigma_h \neq \sigma_n\)</span>.</p>
+<p>The test statistic: <span class="math display">\[ F=\frac{{S_1}^2}{{S_2}^2} \]</span></p>
 <pre class="r"><code>d_n = neversmoke_df$BMI_6yrs - neversmoke_df$BMI_base # get the difference
-d = d_h - d_n</code></pre>
-<p>The test statustic : <span class="math display">\[t_{s2}= \frac{\bar{d}-0}{s_d/\sqrt{n}} \]</span></p>
-<pre class="r"><code>t_s2 = mean(d)*sqrt(10)/sd(d)
-t_std = qt(0.975, 9)</code></pre>
-<p><span class="math inline">\(t_{s2}\)</span> is 1.56 and <span class="math inline">\(t_{9,0.975}\)</span> is 2.262. As <span class="math inline">\(t_{s2}\)</span> smaller than <span class="math inline">\(t_{9,0.975}\)</span>, we fail to reject <span class="math inline">\(H_0\)</span>.</p>
-<p>Interpreatation: At <span class="math inline">\(\alpha = 0.05\)</span> level, we fail to reject <span class="math inline">\(H_0\)</span> and conclude that there is no enough evidence to prove that the BMI changes between women that quit smoking and women who never smoked are different.</p>
+s_n = sd(d_n)
+s_h = sd(d_h)
+f = s_n^2/s_h^2</code></pre>
+<p>As <span class="math inline">\(F\)</span> is 0.86 is smaller than <span class="math inline">\(F_{9,9,0.975}\)</span> 4.026 and is larger than <span class="math inline">\(F_{9,9,0.025}\)</span> 0.248, we fail to reject <span class="math inline">\(H_0\)</span> at <span class="math inline">\(\alpha = 0.05\)</span> significant level and conclude that there is no significant difference between two variances, so we used two-sample independent t-test with equal variances to compare two differences.</p>
+<p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(d_h = d_s\)</span>, the alternative hypothesis <span class="math inline">\(H_1\)</span> : <span class="math inline">\(d_h \neq d_n\)</span>.</p>
+<p>The test statistic: <span class="math display">\[ t = \frac{\bar{x_1}-\bar{x_2}}{s\sqrt{(\frac{1}{n_1}+\frac{1}{n_2})}} \]</span> where <span class="math inline">\(s\)</span> is given by <span class="math display">\[ s^2=\frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2} \]</span></p>
+<pre class="r"><code>s = sqrt(((10-1)*s_n^2 + (10-1)*s_h^2)/(10+10-2))
+t_s2 = (mean(d_n)-mean(d_h))/(s*sqrt(1/10+1/10))
+t_std2 = qt(0.975, 18)</code></pre>
+<p><span class="math inline">\(t_{s2}\)</span> is -1.704 and <span class="math inline">\(t_{9,0.975}\)</span> is 2.101. As absolute value of <span class="math inline">\(t_{s2}\)</span> smaller than <span class="math inline">\(t_{9,0.975}\)</span>, we fail to reject <span class="math inline">\(H_0\)</span>.</p>
+<p>Interpreatation: At <span class="math inline">\(\alpha = 0.05\)</span> significant level, we fail to reject <span class="math inline">\(H_0\)</span> and conclude that there is no enough evidence to prove that the BMI changes between women that quit smoking and women who never smoked are different.</p>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
-<p>The corresponding 95% CI associated with the difference between changes of two groups <span class="math inline">\(d\)</span> is given by: <span class="math display">\[ \bar{d}-t_{n-1,1-\alpha/2}\frac{s_d}{\sqrt{n}} \leq d \leq \bar{d}+t_{n-1,1-\alpha/2}\frac{s_d}{\sqrt{n}} \]</span></p>
-<pre class="r"><code>CI_left = mean(d) - qt(0.975, 9)*sd(d)/sqrt(10)
-CI_right = mean(d) + qt(0.975, 9)*sd(d)/sqrt(10)</code></pre>
-<p>As <span class="math inline">\(n\)</span> is 10 and is 0.05, the corresponding 95% CI associated with <span class="math inline">\(d\)</span> is [-0.814, 4.434].</p>
+<p>The corresponding 95% CI associated with the difference between changes of two groups <span class="math inline">\(d\)</span> is given by: <span class="math display">\[ \bar{x_1}-\bar{x_2}-t_{n_1+n_2-2,1-\alpha/2}s\sqrt{\frac{1}{n_1}+\frac{1}{n_2}} \leq \bar{x_1}-\bar{x_2} \leq \bar{x_1}-\bar{x_2}+t_{n_1+n_2-2,1-\alpha/2}s\sqrt{\frac{1}{n_1}+\frac{1}{n_2}} \]</span></p>
+<pre class="r"><code>CI_left = mean(d_n)-mean(d_h) - qt(0.975, 18)*s*sqrt(1/10+1/10)
+CI_right = mean(d_n)-mean(d_h) + qt(0.975, 18)*s*sqrt(1/10+1/10)</code></pre>
+<p>As <span class="math inline">\(n\)</span> is 10 and is 0.05, the corresponding 95% CI associated with <span class="math inline">\(d\)</span> is [-4.041, 0.421].</p>
 </div>
 <div id="question-4" class="section level2">
 <h2>Question 4</h2>
+<p>Study design:</p>
+<p>We can conduct a cohort study. First, we colloect the BMI of people who start to quit smoke and the BMI of them 6 years after they quited smoke. Then we select a group of 100 people from those who able to quit smoke for at least 6 years including 50 women and 50 men that age 50-64. After that, we select a group of 100 people including 50 women and 50 men that had never somke and age 50-64 in the same place as the former group and record their BMI of first and sixth years. At last, we use two sample independent t test to test whether their is difference between the changes of these two groups.</p>
+<p>Sample size calculating:</p>
+<p>We use the following formula to calculate sample sizes. <span class="math display">\[ n=\frac{(\sigma_1^2+\sigma_2^2)(z_{1-\alpha/2}+z_{1-\beta})^2}{\Delta^2} \]</span> where <span class="math inline">\(\Delta=|\mu_2-\mu_1|\)</span>.</p>
+<p>And we can know that <span class="math inline">\(\mu_1=3.0\)</span>, <span class="math inline">\(\sigma_1=2.0\)</span>, <span class="math inline">\(\mu_2=1.7\)</span>, <span class="math inline">\(\sigma_2=1.5\)</span>.</p>
+<pre class="r"><code>mu_1 = 3.0
+mu_2 = 1.7
+sig_1 = 2.0
+sig_2 = 1.5
+pow_1 = 0.8
+pow_2 = 0.9
+signiflevel_1 = 0.025
+signiflevel_2 = 0.05
+
+sample_size = function(pow, signiflevel){
+  numerator = (sig_1^2+sig_2^2)*(qnorm(1-signiflevel/2)+qnorm(pow))^2
+  denominator = (mu_1-mu_2)^2
+  n = numerator/denominator
+  return(n)
+}</code></pre>
+<p>The table of sample sizes are shown below:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Choice</th>
+<th>2.5% significance level</th>
+<th>5% significance level</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>80% power</td>
+<td>35.1517631</td>
+<td>29.0269221</td>
+</tr>
+<tr class="even">
+<td>90% power</td>
+<td>45.899434</td>
+<td>29.0269221</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div id="problem-3" class="section level1">
@@ -206,7 +291,7 @@ CI_right = mean(d) + qt(0.975, 9)*sd(d)/sqrt(10)</code></pre>
 ##   Average = col_integer(),
 ##   Above = col_integer()
 ## )</code></pre>
-<div id="question-1-1" class="section level2">
+<div id="question-1-2" class="section level2">
 <h2>Question 1</h2>
 <p>The descriptive statistics for Below group is:</p>
 <pre class="r"><code>summary(Knee_df$Below)</code></pre>
@@ -224,7 +309,7 @@ CI_right = mean(d) + qt(0.975, 9)*sd(d)/sqrt(10)</code></pre>
 <pre><code>## Length  Class   Mode 
 ##      0   NULL   NULL</code></pre>
 </div>
-<div id="question-2-1" class="section level2">
+<div id="question-2-2" class="section level2">
 <h2>Question 2</h2>
 <pre class="r"><code># tidy data
 Knee_aov_df =          
@@ -243,7 +328,7 @@ anova(res_knee)</code></pre>
 <p>Assuming the mean of Below group is <span class="math inline">\(\mu_b\)</span>, the mean of Average group is <span class="math inline">\(\mu_{av}\)</span> and the mean of Above group is <span class="math inline">\(\mu_{ab}\)</span>.</p>
 <p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(\mu_b = \mu_{av} = \mu_{ab}\)</span>, the alternative hypothesis <span class="math inline">\(H_1\)</span> : at least two means are not equal.</p>
 <p>According to the ANOVA table <span class="math inline">\(F_s\)</span> is 19.28 and <span class="math inline">\(F_{2,22,0.99}\)</span> is 5.72. As <span class="math inline">\(F_s\)</span> larger than <span class="math inline">\(F_{2,22,0.99}\)</span>, we reject <span class="math inline">\(H_0\)</span>.</p>
-<p>Interpreatation: At <span class="math inline">\(\alpha = 0.01\)</span> level, we reject <span class="math inline">\(H_0\)</span> and conclude that at least two means of Below, Average, Above groups’ time are not equal.</p>
+<p>Interpreatation: At <span class="math inline">\(\alpha = 0.01\)</span> significant level, we reject <span class="math inline">\(H_0\)</span> and conclude that at least two means of Below, Average, Above groups’ time are not equal.</p>
 </div>
 <div id="question-3-1" class="section level2">
 <h2>Question 3</h2>
@@ -280,41 +365,33 @@ anova(res_knee)</code></pre>
 </div>
 <div id="dunnett" class="section level3">
 <h3>Dunnett</h3>
-<pre class="r"><code>library(multcomp)</code></pre>
-<pre><code>## Loading required package: mvtnorm</code></pre>
-<pre><code>## Loading required package: survival</code></pre>
-<pre><code>## Loading required package: TH.data</code></pre>
-<pre><code>## Loading required package: MASS</code></pre>
+<pre class="r"><code>below_g = Knee_df$below
+average_g = Knee_df$average
+above_g = Knee_df$above
+
+DescTools::DunnettTest(list(above_g, average_g, below_g))</code></pre>
 <pre><code>## 
-## Attaching package: 'MASS'</code></pre>
-<pre><code>## The following object is masked from 'package:dplyr':
+##   Dunnett's test for comparing several treatments with a control :  
+##     95% family-wise confidence level
 ## 
-##     select</code></pre>
-<pre><code>## 
-## Attaching package: 'TH.data'</code></pre>
-<pre><code>## The following object is masked from 'package:MASS':
+## $`1`
+##          diff   lwr.ci   upr.ci    pval    
+## 2-1  9.428571 4.161393 14.69575 0.00069 ***
+## 3-1 14.428571 8.896928 19.96021 6.9e-06 ***
 ## 
-##     geyser</code></pre>
-<pre class="r"><code>Knee_aov_df %&gt;% 
-  mutate(group = as.factor(group)) %&gt;% 
-  aov(time ~ group, data = .) %&gt;% 
-  glht(linfct = mcp(group = &quot;Dunnett&quot;))</code></pre>
-<pre><code>## 
-##   General Linear Hypotheses
-## 
-## Multiple Comparisons of Means: Dunnett Contrasts
-## 
-## 
-## Linear Hypotheses:
-##                      Estimate
-## average - above == 0    9.429
-## below - above == 0     14.429</code></pre>
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<p>Both of these three pairwise comparisons can test whether there is significant difference between each two groups in multiple groups. However, we can find out that the results of each test are different. The Bonferroni adjustment can test the difference between every two groups in multiple groups and the result shows that there is no significant difference in every two groups as the Bonferroni adjustment is the strictest. The Tukey adjustment can also test the difference between every two groups in multiple groups and the results shows that only below and average groups have no significant difference. The Dunnett adjustment can test the difference between reference groups(below and average groups) and the control group(above group) and the result shows that there are significant difference between both reference groups and control group.</p>
 </div>
+</div>
+<div id="question-4-1" class="section level2">
+<h2>Question 4</h2>
+<p>At <span class="math inline">\(\alpha = 0.05\)</span> significant level, we can conclude that when seperating patients to below, average and above groups, according to Tukey and Dunnett adjustments both below and average groups are significant different from above groups in the time required in physical therapy until successful rehabilitation, which means the time required in physical therapy is associated with physical status once patients’ physical therapy is above average.</p>
 </div>
 </div>
 <div id="problem-4" class="section level1">
 <h1>Problem 4</h1>
-<div id="question-1-2" class="section level2">
+<div id="question-1-3" class="section level2">
 <h2>Question 1</h2>
 <pre class="r"><code>UCBA_df = as.tibble(datasets::UCBAdmissions) %&gt;%     # import data
   janitor::clean_names()
@@ -327,24 +404,49 @@ admit_female =                        # get the number of admitted female in eac
   UCBA_df %&gt;% 
   filter(admit == &quot;Admitted&quot;, gender == &quot;Female&quot;)
 
-p_m = sum(admit_male$n)/(sum(admit_female$n) + sum(admit_male$n))
-p_f = sum(admit_female$n)/(sum(admit_female$n) + sum(admit_male$n))</code></pre>
-<p>Using the point estimation of the proportions of female and male admitted at Berkeley. The point estimation of the proportions of female <span class="math inline">\(\hat{p_f}\)</span> is 0.317, the point estimation of the proportions of male <span class="math inline">\(\hat{p_m}\)</span> is 0.683.</p>
-<p>Using the following formula to get the 95% confidence interval for the proportions of female and male: <span class="math display">\[ \left(\hat{p}-z_{0.975}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}},\hat{p}+z_{0.975}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\right) \]</span></p>
-<pre class="r"><code>n = sum(admit_female$n) + sum(admit_male$n)
+reject_male =                          # get the number of rejected male in each department
+  UCBA_df %&gt;% 
+  filter(admit == &quot;Rejected&quot;, gender == &quot;Male&quot;)
 
-# proportion of female
-left_CI_female = p_f - qnorm(0.975)*sqrt(p_f*(1-p_f)/n)
-right_CI_female = p_f + qnorm(0.975)*sqrt(p_f*(1-p_f)/n)
+reject_female =                        # get the number of rejected female in each department
+  UCBA_df %&gt;% 
+  filter(admit == &quot;Rejected&quot;, gender == &quot;Female&quot;)
+
+x_m = sum(admit_male$n)
+x_f = sum(admit_female$n)
+
+n_f = sum(admit_female$n) + sum(reject_female$n)
+n_m = sum(admit_male$n) + sum(reject_male$n)
+
+p_m = x_m/n_m
+p_f = x_f/n_f</code></pre>
+<p>Using the point estimation of the proportions of female and male admitted at Berkeley. The point estimation of the proportions of female <span class="math inline">\(\hat{p_f}\)</span> is 0.304, the point estimation of the proportions of male <span class="math inline">\(\hat{p_m}\)</span> is 0.445.</p>
+<p>Using the following formula to get the 95% confidence interval for the proportions of female and male: <span class="math display">\[ \left(\hat{p}-z_{0.975}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}},\hat{p}+z_{0.975}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\right) \]</span></p>
+<pre class="r"><code># proportion of female
+left_CI_female = p_f - qnorm(0.975)*sqrt(p_f*(1-p_f)/n_f)
+right_CI_female = p_f + qnorm(0.975)*sqrt(p_f*(1-p_f)/n_f)
 
 # proportion of male
-left_CI_male = p_m - qnorm(0.975)*sqrt(p_m*(1-p_m)/n)
-right_CI_male = p_m + qnorm(0.975)*sqrt(p_m*(1-p_m)/n)</code></pre>
-<p>By using the above formula, we can get the 95% confidence interval for the proportions of female is ( 0.296, 0.339 ) and the 95% confidence interval for the proportions of male is ( 0.661, 0.704 )</p>
+left_CI_male = p_m - qnorm(0.975)*sqrt(p_m*(1-p_m)/n_m)
+right_CI_male = p_m + qnorm(0.975)*sqrt(p_m*(1-p_m)/n_m)</code></pre>
+<p>By using the above formula, we can get the 95% confidence interval for the proportions of female is ( 0.283, 0.325 ) and the 95% confidence interval for the proportions of male is ( 0.426, 0.464 )</p>
+<p>According to the mean of two proportions, we can find that The point estimation of the proportions of female <span class="math inline">\(\hat{p_f}\)</span> is lightly smaller than the point estimation of the proportions of male <span class="math inline">\(\hat{p_m}\)</span> as well as the confidence interval which might indicates that the true proportions of female admitted in Berkeley is smaller than the true proportions of male admitted in Berkeley.</p>
 </div>
-<div id="question-2-2" class="section level2">
+<div id="question-2-3" class="section level2">
 <h2>Question 2</h2>
-<p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(p_f = p_m\)</span>, the alternative hypothesis <span class="math inline">\(H_1\)</span> : <span class="math inline">\(p_f \neq p_m\)</span>.</p>
+<p>The null hypothesis <span class="math inline">\(H_0\)</span> : <span class="math inline">\(p_f = p_m\)</span>, the alternative hypothesis <span class="math inline">\(H_1\)</span> : <span class="math inline">\(p_f \neq p_m\)</span>. The test statustuc with continuity correction is given by: <span class="math display">\[ z = \frac{|\hat{p_1}-\hat{p_2}|-(\frac{1}{2n_1}+\frac{1}{2n_2})}{\sqrt{\hat{p}\hat{q}(\frac{1}{n_1}+\frac{1}{n_2})}} \]</span> when <span class="math inline">\(\hat{p} = \frac{n_1\hat{p_1}+n_2\hat{p_2}}{n_1+n_2}\)</span>.</p>
+<p>We create a function <code>z.prop</code> to calculate test statistic. The function is shown below.</p>
+<pre class="r"><code>z.prop = function(x1,x2,n1,n2){
+  numerator = abs((x1/n1) - (x2/n2)) - (1/(2*n1)+1/(2*n2))
+  p.common = (x1+x2) / (n1+n2)
+  denominator = sqrt(p.common * (1-p.common) * (1/n1 + 1/n2))
+  z.prop.ris = numerator / denominator
+  return(z.prop.ris)
+}
+
+z_stat = z.prop(x_f, x_m, n_f, n_m)</code></pre>
+<p>By calculating, we can know,<span class="math inline">\(z\)</span> is 9.571 and <span class="math inline">\(z_{1-\alpha/2}\)</span> is 1.96. <span class="math inline">\(z\)</span> is larger than <span class="math inline">\(z_{1-\alpha/2}\)</span> and p-value is 1.</p>
+<p>Interpretation: At <span class="math inline">\(\alpha = 0.05\)</span> significant level, we reject <span class="math inline">\(H_0\)</span> and conclude that their are significant difference between the true proportions of female admitted in Berkeley and the true proportions of male admitted in Berkeley.</p>
 </div>
 </div>
 

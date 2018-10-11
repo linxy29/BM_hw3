@@ -3,9 +3,9 @@ title: "HW3_xl2836"
 author: "Xinyi Lin"
 date: "10/4/2018"
 output:
+  word_document: default
   html_document:
     df_print: paged
-  word_document: default
 ---
 ```{r}
 library(tidyverse)
@@ -13,6 +13,45 @@ library(readxl)
 ```
 
 # Problem 1
+
+## Question 1
+
+Assuming the mean of $X_i$ is $\mu$.
+
+\begin{split}
+E(s^2) & =E[\frac{1}{n-1}\sum_{i=1}^n(x_i-x)^2]\\
+& =E[\frac{1}{n-1}\sum_{i=1}^n(x_i^2-2\bar{x}x_i+\bar{x}^2)] \\
+& =\frac{n}{n-1}E[\frac{1}{n}\sum_{i=1}^n(x_i^2-2\bar{x}x_i+\bar{x}^2)] \\
+& =\frac{n}{n-1}\{\frac{1}{n}E[\sum_{i=1}^n(x_i^2)]-2E(\bar{x}\frac{1}{n}\sum_{i=1}^nx_i)+E(\bar{x}^2)\} \\
+& =\frac{n}{n-1}\{\frac{1}{n}\sum_{i=1}^nE(x_i^2)-2E(\bar{x}^2)+E(\bar{x}^2)\} \\
+& =\frac{n}{n-1}\{\frac{1}{n}\sum_{i=1}^nE(x_i^2)-E(\bar{x}^2)\}
+\end{split}
+
+As $Var(x_i) = E(x_i^2)-(Ex_i)^2$, we can get $E(x_i^2)=Var(x_i)+(Ex_i)^2=\sigma^2+\mu^2$. As $Var(\bar{x}) = E(\bar{x}^2)-(E\bar{x})^2$, we can get $E(\bar{x}^2)=Var(\bar{x})+(E\bar{x})^2=\frac{\sigma^2}{n}+\mu^2$. Then,
+\begin{split}
+E(s^2) & =\frac{n}{n-1}[\frac{1}{n}\times n(\sigma^2+\mu^2)-\frac{\sigma^2}{n}-\mu^2] \\
+& =\frac{n}{n-1}\frac{1}{n}\sigma^2 \\
+& =\sigma^2
+\end{split}
+
+## Question 2
+\begin{split}
+\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}-\bar{\bar{y}})^2 & =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2-2y_{ij}\bar{\bar{y}}+\bar{\bar{y}}^2) \\
+& =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)-2\bar{\bar{y}}\sum_{i=1}^k\sum_{j=1}^{n_i}y_{ij} \\
+& =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{\bar{y}}^2 \\
+& =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2-\bar{\bar{y}}^2)
+\end{split}
+
+\begin{split}
+\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}-\bar{y_l})^2+\sum_{i=1}^k\sum_{j=1}^{n_i}(\bar{y_l}-\bar{\bar{y}})^2 & =\sum_{i=1}^k\sum_{j=1}^{n_i}[y_{ij}^2-2\bar{y_l}y_{ij}+(\bar{y_l})^2+(\bar{y_l})^2-2\bar{y_l}\bar{\bar{y}}+\bar{\bar{y}}^2] \\
+& =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+\sum_{i=1}^k\sum_{j=1}^{n_i}[2(\bar{y_l})^2-2\bar{y_l}\bar{\bar{y}}+\bar{\bar{y}}^2] \\
+& =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}y_{ij}-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}\bar{\bar{y}} \\
+& =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k(\bar{y_l}\sum_{j=1}^{n_i}y_{ij})-2\bar{\bar{y}}\sum_{i=1}^k(\bar{y_l}\sum_{j=1}^{n_i}1) \\
+& =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{\bar{y}}^2 \\
+& =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2-\bar{\bar{y}}^2) \\
+& =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}-\bar{\bar{y}})^2
+
+\end{split}
 
 # Problem 2
 
@@ -40,51 +79,99 @@ $$t_{s1}= \frac{\bar{d_h}-0}{s_d/\sqrt{n}} $$
 
 ```{r}
 t_s1 = mean(d_h)*sqrt(10)/sd(d_h)
-t_std = qt(0.975, 9)
+t_std1 = qt(0.975, 9)
 ```
 
 
-$t_{s1}$ is `r round(t_s1, 3)` and $t_{9,0.975}$ is  `r round(t_std, 3)`. As $t_{s1}$ larger than $t_{9,0.975}$, we reject $H_0$.
+$t_{s1}$ is `r round(t_s1, 3)` and $t_{9,0.975}$ is  `r round(t_std1, 3)`. As $t_{s1}$ larger than $t_{9,0.975}$, we reject $H_0$.
 
-Interpreatation: At $\alpha = 0.05$ level, we reject $H_0$ and conclude that there is enough evidence to prove that the mean of `BMI_base` $\mu_b$ is different from the mean of `BMI_6yrs` $\mu_6$ and their BMI has changed 6 years after quitting smoking.
+Interpreatation: At $\alpha = 0.05$ significant level, we reject $H_0$ and conclude that there is enough evidence to prove that the mean of `BMI_base` $\mu_b$ is different from the mean of `BMI_6yrs` $\mu_6$ and their BMI has changed 6 years after quitting smoking.
 
 ## Question 2
 
-Assuming the difference between `BMI_base` and `BMI_6yrs` is never-smoke-group is $d_n$ and difference between $d_h$ and $d_n$ is $d$. The samples sizes $n$ is 10. In order to compare the BMI changes between women that quit smoking and women who never smoked, we compare the changes in two groups. As these two groups have same sample sizes with unknown variance, we use t test.
+Assuming the difference between `BMI_base` and `BMI_6yrs` is never-smoke-group is $d_n$ and difference between $d_h$ and $d_n$ is $d$. The samples sizes $n$ is 10. In order to compare the BMI changes between women that quit smoking and women who never smoked, we use two-sample independent t-test to compare the changes in two groups. First, we need to test the two samples have same variance or not. 
 
-The null hypothesis $H_0$ : $d_h = d_s$, the alternative hypothesis $H_1$ : $d_h \neq d_n$.
+Assuming the variances of two samples are $\sigma_n$ and $\sigma_h$ and the null hypothesis $H_0$ : $\sigma_h = \sigma_s$, the alternative hypothesis $H_1$ : $\sigma_h \neq \sigma_n$.
+
+The test statistic:
+$$ F=\frac{{S_1}^2}{{S_2}^2} $$
 
 ```{r}
 d_n = neversmoke_df$BMI_6yrs - neversmoke_df$BMI_base # get the difference
-d = d_h - d_n
+s_n = sd(d_n)
+s_h = sd(d_h)
+f = s_n^2/s_h^2
 ```
 
-The test statustic :
-$$t_{s2}= \frac{\bar{d}-0}{s_d/\sqrt{n}} $$ 
+As $F$ is `r round(f,3)` is smaller than $F_{9,9,0.975}$ `r round(qf(0.975, 9, 9), 3)` and is larger than $F_{9,9,0.025}$ `r round(qf(0.025, 9, 9), 3)`, we fail to reject $H_0$ at $\alpha = 0.05$ significant level and conclude that there is no significant difference between two variances, so we used two-sample independent t-test with equal variances to compare two differences.
+
+The null hypothesis $H_0$ : $d_h = d_s$, the alternative hypothesis $H_1$ : $d_h \neq d_n$.
+
+The test statistic:
+$$ t = \frac{\bar{x_1}-\bar{x_2}}{s\sqrt{(\frac{1}{n_1}+\frac{1}{n_2})}} $$
+where $s$ is given by
+$$ s^2=\frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2} $$
 
 ```{r}
-t_s2 = mean(d)*sqrt(10)/sd(d)
-t_std = qt(0.975, 9)
+s = sqrt(((10-1)*s_n^2 + (10-1)*s_h^2)/(10+10-2))
+t_s2 = (mean(d_n)-mean(d_h))/(s*sqrt(1/10+1/10))
+t_std2 = qt(0.975, 18)
 ```
 
+$t_{s2}$ is `r round(t_s2, 3)` and $t_{9,0.975}$ is `r round(t_std2, 3)`. As absolute value of $t_{s2}$ smaller than $t_{9,0.975}$, we fail to reject $H_0$.
 
-$t_{s2}$ is `r round(t_s2, 3)` and $t_{9,0.975}$ is `r round(t_std, 3)`. As $t_{s2}$ smaller than $t_{9,0.975}$, we fail to reject $H_0$.
-
-Interpreatation: At $\alpha = 0.05$ level, we fail to reject $H_0$ and conclude that there is no enough evidence to prove that the BMI changes between women that quit smoking and women who never smoked are different.
+Interpreatation: At $\alpha = 0.05$ significant level, we fail to reject $H_0$ and conclude that there is no enough evidence to prove that the BMI changes between women that quit smoking and women who never smoked are different.
 
 ## Question 3
 
 The corresponding 95% CI associated with the difference between changes of two groups $d$ is given by:
-$$ \bar{d}-t_{n-1,1-\alpha/2}\frac{s_d}{\sqrt{n}} \leq d \leq \bar{d}+t_{n-1,1-\alpha/2}\frac{s_d}{\sqrt{n}} $$
+$$ \bar{x_1}-\bar{x_2}-t_{n_1+n_2-2,1-\alpha/2}s\sqrt{\frac{1}{n_1}+\frac{1}{n_2}} \leq \bar{x_1}-\bar{x_2} \leq \bar{x_1}-\bar{x_2}+t_{n_1+n_2-2,1-\alpha/2}s\sqrt{\frac{1}{n_1}+\frac{1}{n_2}} $$
 
 ```{r}
-CI_left = mean(d) - qt(0.975, 9)*sd(d)/sqrt(10)
-CI_right = mean(d) + qt(0.975, 9)*sd(d)/sqrt(10)
+CI_left = mean(d_n)-mean(d_h) - qt(0.975, 18)*s*sqrt(1/10+1/10)
+CI_right = mean(d_n)-mean(d_h) + qt(0.975, 18)*s*sqrt(1/10+1/10)
 ```
 
 As $n$ is 10 and \alpha is 0.05, the corresponding 95% CI associated with $d$ is [`r round(CI_left, 3)`, `r round(CI_right, 3)`].
 
 ## Question 4
+
+Study design:
+
+We can conduct a cohort study. First, we colloect the BMI of people who start to quit smoke and the BMI of them 6 years after they quited smoke. Then we select a group of 100 people from those who able to quit smoke for at least 6 years including 50 women and 50 men that age 50-64. After that, we select a group of 100 people including 50 women and 50 men that had never somke and age 50-64 in the same place as the former group and record their BMI of first and sixth years. At last, we use two sample independent t test to test whether their is difference between the changes of these two groups.
+
+Sample size calculating:
+
+We use the following formula to calculate sample sizes.
+$$ n=\frac{(\sigma_1^2+\sigma_2^2)(z_{1-\alpha/2}+z_{1-\beta})^2}{\Delta^2} $$
+where $\Delta=|\mu_2-\mu_1|$.
+
+And we can know that $\mu_1=3.0$, $\sigma_1=2.0$, $\mu_2=1.7$, $\sigma_2=1.5$.
+
+```{r}
+mu_1 = 3.0
+mu_2 = 1.7
+sig_1 = 2.0
+sig_2 = 1.5
+pow_1 = 0.8
+pow_2 = 0.9
+signiflevel_1 = 0.025
+signiflevel_2 = 0.05
+
+sample_size = function(pow, signiflevel){
+  numerator = (sig_1^2+sig_2^2)*(qnorm(1-signiflevel/2)+qnorm(pow))^2
+  denominator = (mu_1-mu_2)^2
+  n = numerator/denominator
+  return(n)
+}
+```
+
+The table of sample sizes are shown below:
+
+  Choice   |        2.5% significance level        |        5% significance level
+---------- | ------------------------------------- | ------------------------------------ |
+80% power  | `r sample_size(pow_1, signiflevel_1)` | `r sample_size(pow_1, signiflevel_2)`|
+90% power  | `r sample_size(pow_2, signiflevel_1)` | `r sample_size(pow_1, signiflevel_2)`|
 
 # Problem 3
 
@@ -135,7 +222,7 @@ The null hypothesis $H_0$ : $\mu_b = \mu_{av} = \mu_{ab}$, the alternative hypot
 
 According to the ANOVA table $F_s$ is 19.28 and $F_{2,22,0.99}$ is `r round(qf(0.99, 2, 22), 2)`. As $F_s$ larger than $F_{2,22,0.99}$, we reject $H_0$.
 
-Interpreatation: At $\alpha = 0.01$ level, we reject $H_0$ and conclude that at least two means of Below, Average, Above groups' time are not equal.
+Interpreatation: At $\alpha = 0.01$ significant level, we reject $H_0$ and conclude that at least two means of Below, Average, Above groups' time are not equal.
 
 ## Question 3
 
@@ -160,12 +247,18 @@ aov(time ~ factor(group), data = Knee_aov_df) %>%
 ### Dunnett
 
 ```{r}
-library(multcomp)
-Knee_aov_df %>% 
-  mutate(group = as.factor(group)) %>% 
-  aov(time ~ group, data = .) %>% 
-  glht(linfct = mcp(group = "Dunnett"))
+below_g = Knee_df$below
+average_g = Knee_df$average
+above_g = Knee_df$above
+
+DescTools::DunnettTest(list(above_g, average_g, below_g))
 ```
+
+Both of these three pairwise comparisons can test whether there is significant difference between each two groups in multiple groups. However, we can find out that the results of each test are different. The Bonferroni adjustment can test the difference between every two groups in multiple groups and the result shows that there is no significant difference in every two groups as the Bonferroni adjustment is the strictest. The Tukey adjustment can also test the difference between every two groups in multiple groups and the results shows that only below and average groups have no significant difference. The Dunnett adjustment can test the difference between reference groups(below and average groups) and the control group(above group) and the result shows that there are significant difference between both reference groups and control group.
+
+## Question 4
+
+At $\alpha = 0.05$ significant level, we can conclude that when seperating patients to below, average and above groups, according to Tukey and Dunnett adjustments both below and average groups are significant different from above groups in the time required in physical therapy until successful rehabilitation, which means the time required in physical therapy is associated with physical status once patients' physical therapy is above average.
 
 # Problem 4
 
@@ -183,8 +276,22 @@ admit_female =                        # get the number of admitted female in eac
   UCBA_df %>% 
   filter(admit == "Admitted", gender == "Female")
 
-p_m = sum(admit_male$n)/(sum(admit_female$n) + sum(admit_male$n))
-p_f = sum(admit_female$n)/(sum(admit_female$n) + sum(admit_male$n))
+reject_male =                          # get the number of rejected male in each department
+  UCBA_df %>% 
+  filter(admit == "Rejected", gender == "Male")
+
+reject_female =                        # get the number of rejected female in each department
+  UCBA_df %>% 
+  filter(admit == "Rejected", gender == "Female")
+
+x_m = sum(admit_male$n)
+x_f = sum(admit_female$n)
+
+n_f = sum(admit_female$n) + sum(reject_female$n)
+n_m = sum(admit_male$n) + sum(reject_male$n)
+
+p_m = x_m/n_m
+p_f = x_f/n_f
 ```
 
 Using the point estimation of the proportions of female and male admitted at Berkeley. The point estimation of the proportions of female $\hat{p_f}$ is `r round(p_f, 3)`, the point estimation of the proportions of male $\hat{p_m}$ is `r round(p_m, 3)`.
@@ -192,19 +299,39 @@ Using the point estimation of the proportions of female and male admitted at Ber
 Using the following formula to get the 95% confidence interval for the proportions of female and male:
 $$ \left(\hat{p}-z_{0.975}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}},\hat{p}+z_{0.975}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\right) $$
 ```{r}
-n = sum(admit_female$n) + sum(admit_male$n)
-
 # proportion of female
-left_CI_female = p_f - qnorm(0.975)*sqrt(p_f*(1-p_f)/n)
-right_CI_female = p_f + qnorm(0.975)*sqrt(p_f*(1-p_f)/n)
+left_CI_female = p_f - qnorm(0.975)*sqrt(p_f*(1-p_f)/n_f)
+right_CI_female = p_f + qnorm(0.975)*sqrt(p_f*(1-p_f)/n_f)
 
 # proportion of male
-left_CI_male = p_m - qnorm(0.975)*sqrt(p_m*(1-p_m)/n)
-right_CI_male = p_m + qnorm(0.975)*sqrt(p_m*(1-p_m)/n)
+left_CI_male = p_m - qnorm(0.975)*sqrt(p_m*(1-p_m)/n_m)
+right_CI_male = p_m + qnorm(0.975)*sqrt(p_m*(1-p_m)/n_m)
 ```
 
 By using the above formula, we can get the 95% confidence interval for the proportions of female is ( `r round(left_CI_female,3)`, `r round(right_CI_female,3)` ) and the 95% confidence interval for the proportions of male is ( `r round(left_CI_male,3)`, `r round(right_CI_male,3)` )
 
+According to the mean of two proportions, we can find that The point estimation of the proportions of female $\hat{p_f}$ is lightly smaller than the point estimation of the proportions of male $\hat{p_m}$ as well as the confidence interval which might indicates that the true proportions of female admitted in Berkeley is smaller than the true proportions of male admitted in Berkeley.
+
 ## Question 2
 
-The null hypothesis $H_0$ : $p_f = p_m$, the alternative hypothesis $H_1$ : $p_f \neq p_m$.
+The null hypothesis $H_0$ : $p_f = p_m$, the alternative hypothesis $H_1$ : $p_f \neq p_m$. The test statustuc with continuity correction is given by:
+$$ z = \frac{|\hat{p_1}-\hat{p_2}|-(\frac{1}{2n_1}+\frac{1}{2n_2})}{\sqrt{\hat{p}\hat{q}(\frac{1}{n_1}+\frac{1}{n_2})}} $$
+when $\hat{p} = \frac{n_1\hat{p_1}+n_2\hat{p_2}}{n_1+n_2}$.
+
+We create a function `z.prop` to calculate test statistic. The function is shown below.
+
+```{r}
+z.prop = function(x1,x2,n1,n2){
+  numerator = abs((x1/n1) - (x2/n2)) - (1/(2*n1)+1/(2*n2))
+  p.common = (x1+x2) / (n1+n2)
+  denominator = sqrt(p.common * (1-p.common) * (1/n1 + 1/n2))
+  z.prop.ris = numerator / denominator
+  return(z.prop.ris)
+}
+
+z_stat = z.prop(x_f, x_m, n_f, n_m)
+```
+
+By calculating, we can know,$z$ is `r round(z_stat, 3)` and $z_{1-\alpha/2}$ is `r round(qnorm(0.975), 3)`. $z$ is larger than $z_{1-\alpha/2}$ and p-value is `r round(pnorm(z_stat), 3)`.
+
+Interpretation: At $\alpha = 0.05$ significant level, we reject $H_0$ and conclude that their are significant difference between the true proportions of female admitted in Berkeley and the true proportions of male admitted in Berkeley.
