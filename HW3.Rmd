@@ -3,9 +3,10 @@ title: "HW3_xl2836"
 author: "Xinyi Lin"
 date: "10/4/2018"
 output:
-  word_document: default
+  pdf_document: default
   html_document:
     df_print: paged
+  word_document: default
 ---
 ```{r}
 library(tidyverse)
@@ -18,31 +19,31 @@ library(readxl)
 
 Assuming the mean of $X_i$ is $\mu$.
 
-\begin{split}
+$$\begin{split}
 E(s^2) & =E[\frac{1}{n-1}\sum_{i=1}^n(x_i-x)^2]\\
 & =E[\frac{1}{n-1}\sum_{i=1}^n(x_i^2-2\bar{x}x_i+\bar{x}^2)] \\
 & =\frac{n}{n-1}E[\frac{1}{n}\sum_{i=1}^n(x_i^2-2\bar{x}x_i+\bar{x}^2)] \\
 & =\frac{n}{n-1}\{\frac{1}{n}E[\sum_{i=1}^n(x_i^2)]-2E(\bar{x}\frac{1}{n}\sum_{i=1}^nx_i)+E(\bar{x}^2)\} \\
 & =\frac{n}{n-1}\{\frac{1}{n}\sum_{i=1}^nE(x_i^2)-2E(\bar{x}^2)+E(\bar{x}^2)\} \\
 & =\frac{n}{n-1}\{\frac{1}{n}\sum_{i=1}^nE(x_i^2)-E(\bar{x}^2)\}
-\end{split}
+\end{split}$$
 
 As $Var(x_i) = E(x_i^2)-(Ex_i)^2$, we can get $E(x_i^2)=Var(x_i)+(Ex_i)^2=\sigma^2+\mu^2$. As $Var(\bar{x}) = E(\bar{x}^2)-(E\bar{x})^2$, we can get $E(\bar{x}^2)=Var(\bar{x})+(E\bar{x})^2=\frac{\sigma^2}{n}+\mu^2$. Then,
-\begin{split}
+$$\begin{split}
 E(s^2) & =\frac{n}{n-1}[\frac{1}{n}\times n(\sigma^2+\mu^2)-\frac{\sigma^2}{n}-\mu^2] \\
 & =\frac{n}{n-1}\frac{1}{n}\sigma^2 \\
 & =\sigma^2
-\end{split}
+\end{split}$$
 
 ## Question 2
-\begin{split}
+$$\begin{split}
 \sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}-\bar{\bar{y}})^2 & =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2-2y_{ij}\bar{\bar{y}}+\bar{\bar{y}}^2) \\
 & =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)-2\bar{\bar{y}}\sum_{i=1}^k\sum_{j=1}^{n_i}y_{ij} \\
 & =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{\bar{y}}^2 \\
 & =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2-\bar{\bar{y}}^2)
-\end{split}
+\end{split}$$
 
-\begin{split}
+$$\begin{split}
 \sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}-\bar{y_l})^2+\sum_{i=1}^k\sum_{j=1}^{n_i}(\bar{y_l}-\bar{\bar{y}})^2 & =\sum_{i=1}^k\sum_{j=1}^{n_i}[y_{ij}^2-2\bar{y_l}y_{ij}+(\bar{y_l})^2+(\bar{y_l})^2-2\bar{y_l}\bar{\bar{y}}+\bar{\bar{y}}^2] \\
 & =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+\sum_{i=1}^k\sum_{j=1}^{n_i}[2(\bar{y_l})^2-2\bar{y_l}\bar{\bar{y}}+\bar{\bar{y}}^2] \\
 & =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}y_{ij}-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}\bar{\bar{y}} \\
@@ -50,8 +51,7 @@ E(s^2) & =\frac{n}{n-1}[\frac{1}{n}\times n(\sigma^2+\mu^2)-\frac{\sigma^2}{n}-\
 & =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2+\bar{\bar{y}}^2)+2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{y_l}^2-2\sum_{i=1}^k\sum_{j=1}^{n_i}\bar{\bar{y}}^2 \\
 & =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}^2-\bar{\bar{y}}^2) \\
 & =\sum_{i=1}^k\sum_{j=1}^{n_i}(y_{ij}-\bar{\bar{y}})^2
-
-\end{split}
+\end{split}$$
 
 # Problem 2
 
