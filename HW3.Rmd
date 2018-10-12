@@ -3,10 +3,10 @@ title: "HW3_xl2836"
 author: "Xinyi Lin"
 date: "10/4/2018"
 output:
+  word_document: default
   pdf_document: default
   html_document:
     df_print: paged
-  word_document: default
 ---
 ```{r}
 library(tidyverse)
@@ -132,13 +132,15 @@ CI_left = mean(d_n)-mean(d_h) - qt(0.975, 18)*s*sqrt(1/10+1/10)
 CI_right = mean(d_n)-mean(d_h) + qt(0.975, 18)*s*sqrt(1/10+1/10)
 ```
 
-As $n$ is 10 and \alpha is 0.05, the corresponding 95% CI associated with $d$ is [`r round(CI_left, 3)`, `r round(CI_right, 3)`].
+As $n$ is 10 and \alpha is 0.05, the corresponding 95% CI associated with $d$ is [`r round(CI_left, 3)`, `r round(CI_right, 3)`], which means the true difference between BMI changes of women that quit smoking and women who never smoked is between -4.041 and 0.421.
 
 ## Question 4
 
 Study design:
 
-We can conduct a cohort study. First, we colloect the BMI of people who start to quit smoke and the BMI of them 6 years after they quited smoke. Then we select a group of 100 people from those who able to quit smoke for at least 6 years including 50 women and 50 men that age 50-64. After that, we select a group of 100 people including 50 women and 50 men that had never somke and age 50-64 in the same place as the former group and record their BMI of first and sixth years. At last, we use two sample independent t test to test whether their is difference between the changes of these two groups.
+We can conduct a cohort study. First, we colloect the BMI of people who start to quit smoke and the BMI of them 6 years after they quited smoke. Then we select a group of 100 women from those who able to quit smoke for at least 6 years that age 50-64. After that, we select a group of 100 women that had never somke and age 50-64 in the same place as the former group and record their BMI of first and sixth years. At last, we use two sample independent t test to test whether their is difference between the changes of these two groups.
+
+There might be some bias from selecting women in specific area so we need to find a bunch of source population and using random numbers or other ways to randomly choose 100 of them. 
 
 Sample size calculating:
 
@@ -170,8 +172,8 @@ The table of sample sizes are shown below:
 
   Choice   |        2.5% significance level        |        5% significance level
 ---------- | ------------------------------------- | ------------------------------------ |
-80% power  | `r sample_size(pow_1, signiflevel_1)` | `r sample_size(pow_1, signiflevel_2)`|
-90% power  | `r sample_size(pow_2, signiflevel_1)` | `r sample_size(pow_1, signiflevel_2)`|
+80% power  | `r round(sample_size(pow_1, signiflevel_1))` | `r round(sample_size(pow_1, signiflevel_2))`|
+90% power  | `r round(sample_size(pow_2, signiflevel_1))` | `r round(sample_size(pow_2, signiflevel_2))`|
 
 # Problem 3
 
@@ -187,20 +189,25 @@ Knee_df = read_csv(file = "./data/Knee.csv") %>%
 The descriptive statistics for Below group is:
 
 ```{r}
-summary(Knee_df$Below)
+summary(Knee_df$below)
+sd(Knee_df$below, na.rm = TRUE)
 ```
 
 The descriptive statistics for Average group is:
 
 ```{r}
-summary(Knee_df$Average)
+summary(Knee_df$average)
+sd(Knee_df$average, na.rm = TRUE)
 ```
 
 The descriptive statistics for Above group is:
 
 ```{r}
-summary(Knee_df$Above)
+summary(Knee_df$above)
+sd(Knee_df$above, na.rm = TRUE)
 ```
+
+According to the values calculated above, we can find that the mean and median of above group is largest and the mean and median of below group is smallest. While the variance of average group is smallest and variance of below group is largest which means the difference in condition of average group is smaller.
 
 ## Question 2
 
@@ -220,9 +227,9 @@ Assuming the mean of Below group is $\mu_b$, the mean of Average group is $\mu_{
 
 The null hypothesis $H_0$ : $\mu_b = \mu_{av} = \mu_{ab}$, the alternative hypothesis $H_1$ : at least two means are not equal.
 
-According to the ANOVA table $F_s$ is 19.28 and $F_{2,22,0.99}$ is `r round(qf(0.99, 2, 22), 2)`. As $F_s$ larger than $F_{2,22,0.99}$, we reject $H_0$.
+According to the ANOVA table $F_s$ is 19.28 and $F_{2,22,0.99}$ is `r round(qf(0.99, 2, 22), 2)`. If $F_s$ larger than $F_{2,22,0.99}$, we reject $H_0$, otherwise, we fail to reject $H_0$. As $F_s$ larger than $F_{2,22,0.99}$, we reject $H_0$.
 
-Interpreatation: At $\alpha = 0.01$ significant level, we reject $H_0$ and conclude that at least two means of Below, Average, Above groups' time are not equal.
+Conclusion: At $\alpha = 0.01$ significant level, we reject $H_0$ and conclude that at least two means of Below, Average, Above groups' time are not equal.
 
 ## Question 3
 
@@ -234,14 +241,16 @@ k = 2
 ```
 
 Bonferroni adjustment:
+
 $$\alpha^* = \frac{\alpha}{\begin{pmatrix} k \\ 2 \\ \end{pmatrix}} $$
-In these case, the $\alpha^*$ is `r 0.01*2/(3*2)`, $t_{k-1,1-{\alpha^*}}$ is `r round(qt(1-0.0033, 2), 3)`. As all $t$ in t-test table are smaller than $t_{k-1,1-{\alpha^*}}$, there is no significance different between each group.
+
+In these case, the $\alpha^*$ is `r 0.01*2/(3*2)`, $t_{n-k,1-{\alpha^*}/2}$ is `r round(qt(1-0.0033/2, 22), 3)`. As all $t$ in t-test table are smaller than $t_{n-k,1-{\alpha^*}/2}$, we fail to reject $H_0$ and conclude there is significance different between each group.
 
 ### Tukey
 
 ```{r}
 aov(time ~ factor(group), data = Knee_aov_df) %>% 
-  TukeyHSD()
+  TukeyHSD(conf.level = 0.99)
 ```
 
 ### Dunnett
@@ -251,7 +260,7 @@ below_g = Knee_df$below
 average_g = Knee_df$average
 above_g = Knee_df$above
 
-DescTools::DunnettTest(list(above_g, average_g, below_g))
+DescTools::DunnettTest(list(above_g, average_g, below_g), conf.level = 0.99)
 ```
 
 Both of these three pairwise comparisons can test whether there is significant difference between each two groups in multiple groups. However, we can find out that the results of each test are different. The Bonferroni adjustment can test the difference between every two groups in multiple groups and the result shows that there is no significant difference in every two groups as the Bonferroni adjustment is the strictest. The Tukey adjustment can also test the difference between every two groups in multiple groups and the results shows that only below and average groups have no significant difference. The Dunnett adjustment can test the difference between reference groups(below and average groups) and the control group(above group) and the result shows that there are significant difference between both reference groups and control group.
@@ -330,6 +339,7 @@ z.prop = function(x1,x2,n1,n2){
 }
 
 z_stat = z.prop(x_f, x_m, n_f, n_m)
+p_stat = pnorm(z_stat)
 ```
 
 By calculating, we can know,$z$ is `r round(z_stat, 3)` and $z_{1-\alpha/2}$ is `r round(qnorm(0.975), 3)`. $z$ is larger than $z_{1-\alpha/2}$ and p-value is `r round(pnorm(z_stat), 3)`.
