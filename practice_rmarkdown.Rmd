@@ -1,0 +1,70 @@
+---
+title: "practice"
+author: "Xinyi Lin"
+date: "10/6/2018"
+output: html_document
+---
+
+inline formula: $ a^2+b^2 $
+
+interline formula: 
+$$ a^2+b^2 $$
+
+add notation:
+$$ a^2+b^2 \tag{1.1}$$
+
+add notation:
+$$ a^2+b^2 \tag{first}$$
+
+superscripts and subscripts:
+$$ \sum_{i=1}^N $$
+$$ \sideset{^1_2}{^3_4} \Omega $$
+$$ \sideset{^1_2}{^3_4}\Omega $$
+$$ \Omega\sideset{^1_2}{^3_4} $$
+$$ \sideset{^1_2}\Omega{^3_4} $$
+brackets:
+$$ f(x,y) = x^2+y^2, x \in [0,100], \{\} $$
+for bigger brackets, use \left and \right:
+$$ （\frac{x}{y})^8, \left(\frac{x}{y}\right)^8 $$
+\left and \right needed to exist in pair, use \left. instead of \leaf:
+$$ \left. \frac{{\rm d}u}{{\rm d}x} \right| _{x=0} $$
+fraction:
+$ \frac{1}{2x+1} $ or $ 1\over{2x+1} $
+
+take square root:
+$ \sqrt[9]{3} $ , $ \sqrt{3} $, $ \sqrt{3}[9] $ can't work
+
+ellipsis:
+at the bottom is \ldots, at the middle is \cdots, interline is \vdots
+$$ f(x_1, x_2, \ldots, x_n) = x_{11}^2 + x_{12}^2 + \cdots + x_{1n}^2 \\ \vdots \\ x_{n1}^2 + x_{n2}^2 + \cdots + x_{nn}^2 $$
+vector:
+$$ \vec{a} \cdot \vec{b} = 0 $$
+integration:
+$$ \int_0^1 x^2 {\rm d}x $$
+limit:
+$$ \lim_{n\rightarrow+\infty}\frac{1}{n(n+1)} $$
+multiple and sum:
+$$ \sum_{n=1}^k \frac{1}{n+1} $$
+$$ \prod_{n=1}^k \frac{1}{n+1} $$
+derivation
+$$ \frac{dy}{dx} $$
+matrix:
+\begin{array}
+x_1 & x_2 & \dots \\
+x_3 & x_4 & \dots \\
+\vdots & \vdots & \ddots
+\end{array}
+
+"\\\\" use for turn to next line, and split help to organize
+
+\begin{multline}
+x = a + b + c +\\
+d + e + f
+\end{multline}
+
+\begin{split}
+x = & a + b + c + \\
+& d + e + f 
+\end{split}
+
+\newtheorem s+y equals to
